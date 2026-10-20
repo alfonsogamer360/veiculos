@@ -32,3 +32,14 @@ veiculosRouter.post("/", async (req, res) => {
         console.error (error);
     }
 });
+
+veiculosRouter.delete("/:id", async (req, res) => {
+    const veiculoId = req.params.id
+    try {
+        const veiculos = await veiculosServices.delete(veiculoId);
+         res.status(201).json(veiculos);
+    }catch (error) {
+        console.error (error);
+        
+    }
+});

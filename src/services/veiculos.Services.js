@@ -15,6 +15,14 @@ class veiculosService{
         const res = await pool.query("SELECT * FROM veiculos WHERE id = $1", [id])
         return res.rows[0]
     }
+
+    async delete(id){
+        const res = await pool.query("DELETE FROM veiculos WHERE id = $1 RETURNING *", [id])
+        return {
+            message: "veiculo deletado com sucesso",
+            veiculo: res.rows[0]
+        }
+    }
 }
 
 export const veiculosServices = new veiculosService()
