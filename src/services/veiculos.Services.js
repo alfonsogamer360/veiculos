@@ -23,6 +23,14 @@ class veiculosService{
             veiculo: res.rows[0]
         }
     }
+    
+    async updatePut(id, data){
+        const res = await pool.query("UPDATE veiculos WHERE id = $1 SET modelo=$2, marca=$3, ano=$4, placa=$5 RETURNING *", [id, data.modelo, data.marca, data.ano, data.placa])
+        return {
+            message: "Veiculo atualizado com sucesso!",
+            veiculo: res.rows[0]
+        }
+    }
 }
 
 export const veiculosServices = new veiculosService()
