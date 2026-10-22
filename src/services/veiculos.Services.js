@@ -1,4 +1,5 @@
 import { pool } from "../database/db.js";
+import { knex } from "../database/knex.js";
 
 class veiculosService{
     async getall() {
@@ -29,6 +30,38 @@ class veiculosService{
         return {
             message: "Veiculo atualizado com sucesso!",
             veiculo: res.rows[0]
+        }
+    }
+
+    //  async updatePatch(id, campos){
+    //     const keys = Object.keys(campos)
+    //     if (keys.length === 0) {
+    //         throw new Error("É necessário informar um campo para ser atualizado");
+    //     }
+    //     console.log("keys", keys)
+    //     const queryDinamica = keys.map((key, index) => `${key} = $${index + 1}`).join(", ")
+    //     console.log("querydinamica", queryDinamica)
+
+    //     const valores = Object.values(campos)
+    //     valores.push(id)
+    //     console.log("valores", valores)
+
+
+    //     const query = `UPDATE veiculos SET ${queryDinamica} WHERE id = $${valores.length}   RETURNING *`
+    //     console.log("query", query)
+        
+    //     const res = await pool.query(query,valores)
+    //     return {
+    //         message: "Veiculo atualizado com sucesso!",
+    //         veiculo: res.rows[0]
+    //     }
+    // }
+
+    async updateKnex (id, dados) {
+        const veiculoAtualizado = await knex("veiculos").where({ id }).update(dados).returning("*")
+        return {
+            message: "Veiculo atualizado com sucesso!",
+            veiculoAtualizado
         }
     }
 }
